@@ -58,6 +58,7 @@ public class UploadFileService extends Service {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
+
     }
 
     @Nullable
@@ -87,11 +88,13 @@ public class UploadFileService extends Service {
             UploadData u = new UploadData();
             String msg = u.uploadData(file.getAbsolutePath(), uid, url);
 
-            Log.d("Test", "onHandleIntent: "+msg);
+            Log.d("Test", "onHandleIntent: " + msg);
             file.delete();
-            stopService(new Intent(getApplicationContext(),UploadFileService.class));
+            stopService(new Intent(getApplicationContext(), UploadFileService.class));
 
         }
         return START_STICKY;
     }
+
+
 }
