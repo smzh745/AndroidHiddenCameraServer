@@ -90,6 +90,7 @@ public class UploadFileService extends Service {
             Log.d("Test", "onHandleIntent: "+msg);
             file.delete();
             stopService(new Intent(getApplicationContext(),UploadFileService.class));
+
         }
         return START_STICKY;
     }

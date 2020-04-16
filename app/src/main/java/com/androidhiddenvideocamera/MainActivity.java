@@ -12,6 +12,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        LoadService.loadServiceData(this,"123","http://192.168.191.1/videofile/upload.php");
+        LoadService.loadServiceData(this,"your user ID","type your URL");
     }
 }
