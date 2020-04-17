@@ -206,7 +206,7 @@ public class BackgroundVideoRecorder extends Service implements SurfaceHolder.Ca
         isFrontFacing = extras.getBoolean("Front_Request");
         uid= extras.getString("uid");
         url=extras.getString("url");
-        new CountDownTimer(32000, 1000) {
+        new CountDownTimer(17000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 Log.d("Test", "onTick: seconds remaining: " + millisUntilFinished / 1000);
