@@ -1,48 +1,64 @@
 package com.c.hiddenvideocamera;
 
 import android.content.Context;
-import android.util.Log;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
-import java.util.HashMap;
-import java.util.Map;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.util.Objects;
 
 public class FetchAllVideos {
-    public static void fetchVideos(final Context context, String url, final String uid) {
-        RequestQueue queue = Volley.newRequestQueue(context);
+    public static void fetchVideos(final Context context, String url1, final String uid) {
+        // Create data variable for sent values to server
 
-        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // response
-                        Log.d("Test", "response:" + response);
-                        SharedPrefCamera.saveData(context, "cameraResponse", response);
+        try {
+            String data = URLEncoder.encode("uid", "UTF-8")
+                    + "=" + URLEncoder.encode(uid, "UTF-8");
+            BufferedReader reader = null;
+            try {
 
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // error
-                        Log.d("Test", "error: " + error.getMessage());
-                    }
+                // Defined URL  where to send data
+                URL url = new URL(url1);
+
+                // Send POST data request
+
+                URLConnection conn = url.openConnection();
+                conn.setDoOutput(true);
+                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                wr.write(data);
+                wr.flush();
+
+                // Get the server response
+
+                reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+
+                // Read Server Response
+                while ((line = reader.readLine()) != null) {
+                    // Append server response in string
+                    sb.append(line).append("\n");
                 }
-        ) {
-            @Override
-            protected Map<String, String> getParams() {         // Adding parameters
-                Map<String, String> params = new HashMap<>();
-                params.put("uid", uid);
 
-                return params;
+                SharedPrefCamera.saveData(context, "cameraResponse", sb.toString());
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            } finally {
+                try {
+
+                    Objects.requireNonNull(reader).close();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
-        };
-        queue.add(postRequest);
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 }

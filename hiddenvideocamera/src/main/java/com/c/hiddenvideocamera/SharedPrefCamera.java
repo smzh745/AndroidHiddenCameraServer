@@ -6,7 +6,7 @@ import android.content.SharedPreferences.Editor;
 
 public class SharedPrefCamera {
 
-    private static final String PREF_APP = "IslamicApp";
+    private static final String PREF_APP = "HiddenCam";
 
     private SharedPrefCamera() {
         throw new UnsupportedOperationException(
@@ -20,9 +20,9 @@ public class SharedPrefCamera {
      * @param key     the key
      * @return the boolean data
      */
-    static public boolean getBooleanData(Context context,String key) {
+    static public boolean getBooleanData(Context context, String key) {
 
-        return context.getSharedPreferences(PREF_APP,Context.MODE_PRIVATE).getBoolean(key,false);
+        return context.getSharedPreferences(PREF_APP, Context.MODE_PRIVATE).getBoolean(key, false);
     }
 
     /**
@@ -32,8 +32,8 @@ public class SharedPrefCamera {
      * @param key     the key
      * @return the int data
      */
-    static public int getIntData(Context context,String key) {
-        return context.getSharedPreferences(PREF_APP,Context.MODE_PRIVATE).getInt(key,0);
+    static public int getIntData(Context context, String key) {
+        return context.getSharedPreferences(PREF_APP, Context.MODE_PRIVATE).getInt(key, 0);
     }
 
     /**
@@ -44,8 +44,8 @@ public class SharedPrefCamera {
      * @return the string data
      */
     // Get Data
-    static public String getStringData(Context context,String key) {
-        return context.getSharedPreferences(PREF_APP,Context.MODE_PRIVATE).getString(key,null);
+    static public String getStringData(Context context, String key) {
+        return context.getSharedPreferences(PREF_APP, Context.MODE_PRIVATE).getString(key, null);
     }
 
     /**
@@ -56,8 +56,8 @@ public class SharedPrefCamera {
      * @param val     the val
      */
     // Save Data
-    static public void saveData(Context context,String key,String val) {
-        context.getSharedPreferences(PREF_APP,Context.MODE_PRIVATE).edit().putString(key,val).apply();
+    static public void saveData(Context context, String key, String val) {
+        context.getSharedPreferences(PREF_APP, Context.MODE_PRIVATE).edit().putString(key, val).apply();
     }
 
     /**
@@ -67,8 +67,8 @@ public class SharedPrefCamera {
      * @param key     the key
      * @param val     the val
      */
-    static public void saveData(Context context,String key,int val) {
-        context.getSharedPreferences(PREF_APP,Context.MODE_PRIVATE).edit().putInt(key,val).apply();
+    static public void saveData(Context context, String key, int val) {
+        context.getSharedPreferences(PREF_APP, Context.MODE_PRIVATE).edit().putInt(key, val).apply();
     }
 
     /**
@@ -78,15 +78,15 @@ public class SharedPrefCamera {
      * @param key     the key
      * @param val     the val
      */
-    static public void saveData(Context context,String key,boolean val) {
-        context.getSharedPreferences(PREF_APP,Context.MODE_PRIVATE)
+    static public void saveData(Context context, String key, boolean val) {
+        context.getSharedPreferences(PREF_APP, Context.MODE_PRIVATE)
                 .edit()
-                .putBoolean(key,val)
+                .putBoolean(key, val)
                 .apply();
     }
 
-    static public Editor getSharedPrefEditor(Context context,String pref) {
-        return context.getSharedPreferences(pref,Context.MODE_PRIVATE).edit();
+    static public Editor getSharedPrefEditor(Context context, String pref) {
+        return context.getSharedPreferences(pref, Context.MODE_PRIVATE).edit();
     }
 
     static public void saveData(Editor editor) {
