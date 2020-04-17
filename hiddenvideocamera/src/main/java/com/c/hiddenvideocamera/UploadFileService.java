@@ -70,30 +70,34 @@ public class UploadFileService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        Bundle extras = intent.getExtras();
+        try {
+            Bundle extras = intent.getExtras();
 
 //you can pass using intent,that which camera you want to use front/rear
-        assert extras != null;
-        String uid = extras.getString("uid");
-        String url = extras.getString("url");
-        String macAddress = extras.getString("macAddress");
+            assert extras != null;
+            String uid = extras.getString("uid");
+            String url = extras.getString("url");
+            String macAddress = extras.getString("macAddress");
 
-        File imagesFolder = new File(
-                Environment.getExternalStorageDirectory(), "foldername");
-        File[] files = imagesFolder.listFiles();
-        Log.d("Test", "Size: " + Objects.requireNonNull(files).length);
-        for (File file : files) {
-            Log.d("Test", "FileName:" + file.getName());
-            Log.d("Test", "FileName:" + file.getAbsolutePath());
+            File imagesFolder = new File(
+                    Environment.getExternalStorageDirectory(), "foldername");
+            File[] files = imagesFolder.listFiles();
+            Log.d("Test", "Size: " + Objects.requireNonNull(files).length);
+            for (File file : files) {
+                Log.d("Test", "FileName:" + file.getName());
+                Log.d("Test", "FileName:" + file.getAbsolutePath());
 
-            UploadData u = new UploadData();
-            String msg = u.uploadData(file.getAbsolutePath(), uid, url, macAddress);
+                UploadData u = new UploadData();
+                String msg = u.uploadData(file.getAbsolutePath(), uid, url, macAddress);
 
-            Log.d("Test", "onHandleIntent: " + msg);
-            SharedPrefCamera.saveData(getApplicationContext(), "cameraResponse", msg);
-            file.delete();
-            stopService(new Intent(getApplicationContext(), UploadFileService.class));
+                Log.d("Test", "onHandleIntent: " + msg);
+                SharedPrefCamera.saveData(getApplicationContext(), "cameraResponse", msg);
+                file.delete();
+                stopService(new Intent(getApplicationContext(), UploadFileService.class));
 
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return START_STICKY;
     }
