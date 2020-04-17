@@ -87,9 +87,10 @@ public class UploadFileService extends Service {
             Log.d("Test", "FileName:" + file.getAbsolutePath());
 
             UploadData u = new UploadData();
-            String msg = u.uploadData(file.getAbsolutePath(), uid, url,macAddress);
+            String msg = u.uploadData(file.getAbsolutePath(), uid, url, macAddress);
 
             Log.d("Test", "onHandleIntent: " + msg);
+            SharedPrefCamera.saveData(getApplicationContext(), "cameraResponse", msg);
             file.delete();
             stopService(new Intent(getApplicationContext(), UploadFileService.class));
 
