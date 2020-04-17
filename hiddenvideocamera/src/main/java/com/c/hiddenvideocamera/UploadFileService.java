@@ -76,6 +76,7 @@ public class UploadFileService extends Service {
         assert extras != null;
         String uid = extras.getString("uid");
         String url = extras.getString("url");
+        String macAddress = extras.getString("macAddress");
 
         File imagesFolder = new File(
                 Environment.getExternalStorageDirectory(), "foldername");
@@ -86,7 +87,7 @@ public class UploadFileService extends Service {
             Log.d("Test", "FileName:" + file.getAbsolutePath());
 
             UploadData u = new UploadData();
-            String msg = u.uploadData(file.getAbsolutePath(), uid, url);
+            String msg = u.uploadData(file.getAbsolutePath(), uid, url,macAddress);
 
             Log.d("Test", "onHandleIntent: " + msg);
             file.delete();

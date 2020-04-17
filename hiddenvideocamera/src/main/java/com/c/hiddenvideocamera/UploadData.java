@@ -4,7 +4,6 @@ import android.util.Log;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.content.FileBody;
@@ -13,13 +12,12 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
 import java.io.File;
-import java.io.IOException;
 
-public class UploadData {
+@SuppressWarnings("ALL")
+class UploadData {
 
-    long totalSize = 0;
-    public String uploadData(String filePath, String uid,String url) {
-        String responseString = null;
+    String uploadData(String filePath, String uid, String url, String macAddress) {
+        String responseString;
 
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(url);
@@ -31,7 +29,7 @@ public class UploadData {
 
                         @Override
                         public void transferred(long num) {
-                            Log.d("Test", "transferred: "+num);
+                            Log.d("Test", "transferred: " + num);
                         }
                     });
             File sourceFile = new File(filePath);
@@ -42,8 +40,11 @@ public class UploadData {
             // Extra parameters if you want to pass to server
             entity.addPart("uid",
                     new StringBody(uid));
+            entity.addPart("macAddress",
+                    new StringBody(macAddress));
 
-            totalSize = entity.getContentLength();
+            long totalSize = entity.getContentLength();
+            Log.d("Test", "uploadData: totalSize-> " + totalSize);
             httppost.setEntity(entity);
 
             // Making server call
@@ -59,9 +60,7 @@ public class UploadData {
                         + statusCode;
             }
 
-        } catch (ClientProtocolException e) {
-            responseString = e.toString();
-        } catch (IOException e) {
+        } catch (Exception e) {
             responseString = e.toString();
         }
 
